@@ -60,56 +60,27 @@ public class InstantMessageServer implements Runnable {
 				System.exit(-1);
 			}
 			
-			// NOTE: clientSocket is the socket returned by the ServerSocket.accept() method
-			// This socket represents the server's end of the connection. It is stored in the
-			// ConnectedUser objects and can be retrieved by the server to write to and read from.
-			
-			System.out.println("InstantMessageServer: Checkpoint 1"); // TEST
-			
-			// Read in Message from the client to get 
+			// Read in Message from the client to get
 			ServerMessageGetterSender getter = new ServerMessageGetterSender(clientSocket);
-			
-			System.out.println("InstantMessageServer: Checkpoint 2"); // TEST
 			
 			Message message = getter.getMessage();
 			
-			System.out.println("InstantMessageServer: Checkpoint 3"); // TEST
-			
 			// Check to see what the message is and act on it
 			messageCheck(message, getter);
-			
-			System.out.println("InstantMessageServer: Checkpoint 4"); // TEST
-			
-			// Now we need a loop, thread to continously read and act on incomming messages
-			// The loop has to go through each ConnectedUser and call readObject() on the InputStream
-			// Can this be done in the ConnectedUser class?
-			// When a message is received by the ConnectedUser object, this represents a message from that user,
-			// The ConnectedUser has to somehow send that to the server to be parsed
-			// The ConnectedUser can call messageCheck() and pass in the message and its own socket
-			
 		}
 	}
 	
 	public void messageCheck(Message messageToCheck, ServerMessageGetterSender messageCheckGetterSender) {
 		
-		System.out.println("InstantMessageServer::messageCheck Checkpoint 1"); // TEST
-		
 		// Get the message command and sender
 		String command = messageToCheck.getCommand();
 		String messageSender = messageToCheck.getSender();
 		
-		System.out.println("InstantMessageServer::messageCheck Checkpoint 2"); // TEST
-		
 		// Check to see if the sender is logged on
 		boolean loggedOn = loggedOnUsers.containsKey(messageSender);
 		
-		System.out.println("InstantMessageServer::messageCheck Checkpoint 3"); // TEST
-		
 		// The message can only be of three different types: logon, logoff and message
 		if (command.equals("logon")) {
-			
-			System.out.println("InstantMessageServer::messageCheck (logon) Checkpoint 1"); // TEST
-			
 			// Check to see if user is already logged on. If not
 			// Instantiate a new ConnectedUser object, add to List and run Thread
 
@@ -118,13 +89,8 @@ public class InstantMessageServer implements Runnable {
 				// User may have been accidentally disconnected
 				// TODO replace the socket in the appropriate ConnectedUser with the new one
 			} else {
-				
-				System.out.println("InstantMessageServer::messageCheck (logon) Checkpoint 2"); // TEST
-				
 				// Log the user on: Instantiate a new User, Thread and start Thread
 				ConnectedUser tempUser = new ConnectedUser(messageSender, messageCheckGetterSender, this);
-				
-				System.out.println("InstantMessageServer::messageCheck (logon) Checkpoint 3"); // TEST
 				
 				Thread tempThread = new Thread(tempUser);
 				tempThread.start();
@@ -149,8 +115,6 @@ public class InstantMessageServer implements Runnable {
 			}
 		} else if (command.equals("message")) {
 			// Check to see if the sender is logged on, if so, send the message to the recipient
-			
-			// Cast messageToCheck to a TextMessage before calling getTransmissionFlag()
 			TextMessage textMessageToCheck = (TextMessage) messageToCheck;
 			
 			if (loggedOn) {
@@ -164,19 +128,10 @@ public class InstantMessageServer implements Runnable {
 					System.out.println("Sending message from " + messageSender + " to " + messageRecipient + ".");
 					ConnectedUser recipientUser = (ConnectedUser) loggedOnUsers.get(messageRecipient);
 					
-					System.out.println("InstantMessageServer::messageCheck (message) Checkpoint 4"); // TEST
-					
 					// get the recipient's ServerMessageGetterSender object to send the Message
 					ServerMessageGetterSender sender = recipientUser.getServerMessageGetterSender();
 					
-					System.out.println("InstantMessageServer::messageCheck (message) Checkpoint 5"); // TEST
-					
-					// TODO need to flip the sender and the recipient?
-					
 					sender.sendMessage(textMessageToCheck);
-					
-					System.out.println("InstantMessageServer::messageCheck (message) Checkpoint 6"); // TEST
-						
 				} else {
 					System.out.println(messageRecipient + "is not logged on.");
 				}

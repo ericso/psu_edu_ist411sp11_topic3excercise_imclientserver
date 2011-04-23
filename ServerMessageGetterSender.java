@@ -14,12 +14,8 @@ public class ServerMessageGetterSender {
 	private ObjectOutputStream out;
 	
 	public ServerMessageGetterSender(Socket socket) {
-	
-		System.out.println("ServerMessageGetterSender: Checkpoint 1"); // TEST
 		
 		this.socket = socket;
-		
-		System.out.println("Server socket port: " + socket.getLocalPort()); // TEST
 		
 		// Get input and output streams in reverse order of ClientMessageGetterSender class
 		try {
@@ -28,22 +24,16 @@ public class ServerMessageGetterSender {
 			System.out.println("Could not get ObjectOutputStream on socket: " + socket.getLocalPort());
 		}
 		
-		System.out.println("ServerMessageGetterSender: Checkpoint 2");
-		
 		try {
 			this.in = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException ioe) {
 			System.out.println("Could not get ObjectInputStream on socket: " + socket.getLocalPort());
 		}
-		
-		System.out.println("ServerMessageGetterSender: Checkpoint 3");
 	}
 	
 	public Message getMessage() {
 		
 		// TODO error handling if cannot read message
-		
-		System.out.println("ServerMessageGetterSender::getMessage Checkpoint 1");
 		
 		Message message;
 		
@@ -62,8 +52,6 @@ public class ServerMessageGetterSender {
 	}
 	
 	public boolean sendMessage(Message messageToSend) {
-		
-		System.out.println("ServerMessageGetterSender::sendMessage Checkpoint 1");
 		
 		try {
 			out.writeObject(messageToSend);

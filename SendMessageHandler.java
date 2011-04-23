@@ -24,13 +24,8 @@ public class SendMessageHandler implements ActionListener {
 		this.recipient = recipient;
 		this.dialog = dialog;
 		
-		System.out.println("SendMessageHandler Checkpoint 1"); // TEST
-		
 		this.clientUsername = dialog.getClientUsername();
 		this.textToSend = textField.getText();
-		
-		System.out.println("SendMessageHandler Checkpoint 1"); // TEST
-		
 	}
 	
 	public void actionPerformed(ActionEvent evt) {
@@ -47,12 +42,6 @@ public class SendMessageHandler implements ActionListener {
 			
 			// Create the Message object to send and send using a ClientMessageGetterSender object
 			TextMessage messageToSend = new TextMessage(clientUsername, recipient, textToSend);
-			
-			// TEST: What's in the message that's to be sent?
-			System.out.println("TEST: What's in the message that's to be sent?");
-			System.out.println("sender: " + messageToSend.getSender());
-			System.out.println("recipient: " + messageToSend.getRecipient());
-			System.out.println("messageText: " + messageToSend.getMessageText());
 			
 			ClientMessageGetterSender sender = dialog.getClientMessageGetterSender();
 			sender.sendMessage(messageToSend);
