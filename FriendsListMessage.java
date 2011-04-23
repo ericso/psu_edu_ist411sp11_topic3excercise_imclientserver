@@ -17,7 +17,6 @@ public class FriendsListMessage extends Message {
 		this.sender = sender;
 		
 		this.friendsList = new ArrayList<String>(friendsList);
-		
 	}
 	
 	public List<String> getFriendsList() {

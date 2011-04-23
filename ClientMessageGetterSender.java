@@ -15,12 +15,6 @@ public class ClientMessageGetterSender {
 	
 	public ClientMessageGetterSender(Socket socket) {
 		
-		// TODO make separate MessageGetterSender objects for the client and server
-		// For server, swap input and output stream retrieval
-		
-		// TEST
-		System.out.println("ClientMessageGetterSender: Checkpoint 1");
-		
 		this.socket = socket;
 		
 		// Get input and output streams
@@ -35,8 +29,6 @@ public class ClientMessageGetterSender {
 		} catch (IOException ioe) {
 			System.out.println("Could not get ObjectOutputStream on socket: " + socket.getLocalPort());
 		}
-		
-		System.out.println("ClientMessageGetterSender: Checkpoint 2");
 	}
 	
 	public Message getMessage() {
@@ -45,18 +37,8 @@ public class ClientMessageGetterSender {
 		
 		Message message;
 		
-		System.out.println("ClientMessageGetterSender::getMessage: Checkpoint 1");
-		
 		try {
-			System.out.println("ClientMessageGetterSender::getMessage: Checkpoint 2");
-			
-			// blocking here, whY?
-			// What else is using the inputstream?
-			// how can I test?
 			message = (Message) in.readObject();
-			
-			System.out.println("ClientMessageGetterSender::getMessage: Checkpoint 3");
-			
 			return message;
 		} catch (IOException ioe) {
 			System.out.println("Could not read from socket: " + socket.getPort());
@@ -72,12 +54,8 @@ public class ClientMessageGetterSender {
 	
 	public boolean sendMessage(Message messageToSend) {
 		
-		System.out.println("ClientMessageGetterSender::sendMessage: Checkpoint 1");
-		
 		try {
 			out.writeObject(messageToSend);
-			
-			System.out.println("ClientMessageGetterSender::sendMessage: Checkpoint 2");
 			
 		} catch (IOException ioe) {
 			System.out.println("Could not write to socket: " + socket.getLocalPort());

@@ -57,13 +57,9 @@ public class InstantMessageClient implements Runnable {
 		// Create a ClientMessageGetterSender object to handle getting and sending messages
 		this.clientMessageGetterSender = new ClientMessageGetterSender(socket);
 		
-		System.out.println("InstantMessageClient: Checkpoint 1"); // TEST
-		
 		// Create a logon CommandMessage and send it
 		CommandMessage logonCommandMessage = new CommandMessage(this.username, "logon");
 		clientMessageGetterSender.sendMessage(logonCommandMessage);
-		
-		System.out.println("InstantMessageClient: Checkpoint 2"); // TEST
 		
 		this.friendsList = null;
 		FriendsListMessage friendsListMessage = null;
@@ -76,14 +72,10 @@ public class InstantMessageClient implements Runnable {
 		
 		this.currentConversations = new HashMap<String, InstantMessageDialog>();
 		
-		System.out.println("InstantMessageClient: Checkpoint 3"); // TEST
-		
 		// Create the friends list window
 		this.instantMessageFrame = new InstantMessageFrame(this.username, this.friendsList, this.currentConversations, this.clientMessageGetterSender);
 		this.instantMessageFrame.setSize(220, 450);
 		this.instantMessageFrame.setVisible(true);
-		
-		System.out.println("InstantMessageClient: Checkpoint 4"); // TEST
 		
 		this.listening = true;
 	}
@@ -105,18 +97,12 @@ public class InstantMessageClient implements Runnable {
 	
 	public void messageCheck(Message messageToCheck) {
 		
-		System.out.println("InstantMessageClient::messageCheck Checkpoint 1"); // TEST
-		
 		// Get the message command and sender
 		String command = messageToCheck.getCommand();
 		String messageSender = messageToCheck.getSender();
 		
-		System.out.println("InstantMessageClient::messageCheck Checkpoint 2"); // TEST
-		
 		// The message can only be of two different types: friendslist and message
 		if (command.equals("friendslist")) {
-			
-			System.out.println("InstantMessageClient::messageCheck (friendslist) Checkpoint 3"); // TEST
 			
 			// Cast the Message to a FriendsListMessage
 			FriendsListMessage friendsListMessage = (FriendsListMessage) messageToCheck;
@@ -125,15 +111,11 @@ public class InstantMessageClient implements Runnable {
 			
 		} else if (command.equals("message")) {
 			
-			System.out.println("InstantMessageClient::messageCheck (message) Checkpoint 4"); // TEST
-			
 			// Cast Message to a TextMessage
 			TextMessage textMessage = (TextMessage) messageToCheck;
 			
 			// Check to see if a conversation with the recipient is already in progress
 			boolean hasConversationWithSender = currentConversations.containsKey(messageSender);
-			
-			System.out.println("InstantMessageClient::messageCheck (message) Checkpoint 5"); // TEST
 			
 			InstantMessageDialog tempDialog = null;
 			String textToAppend = textMessage.getMessageText();
@@ -144,34 +126,19 @@ public class InstantMessageClient implements Runnable {
 				// Find the InstantMessageDialog and send message to it
 				tempDialog = (InstantMessageDialog) currentConversations.get(messageSender);
 				
-				System.out.println("InstantMessageClient::messageCheck (message) Checkpoint 6"); // TEST
-				
 				// Update the JTextArea of the InstantMessageDialog with the text
 				tempDialog.updateTextArea(textToAppend);
 			} else {
-			
-				System.out.println("InstantMessageClient::messageCheck (message) Checkpoint 7"); // TEST
 				
 				// Instantiate a new InstantMessageDialog with the sender of the message
 				tempDialog =  new InstantMessageDialog(null, this.username, messageSender, this.clientMessageGetterSender);
 				
-				System.out.println("InstantMessageClient::messageCheck (message) Checkpoint 8"); // TEST
-				
 				tempDialog.setVisible(true);
-			
-				System.out.println("InstantMessageClient::messageCheck (message) Checkpoint 9"); // TEST
 				
 				// Update the JTextArea of the InstantMessageDialog with the text
 				tempDialog.updateTextArea(textToAppend);
-				
-				System.out.println("InstantMessageClient::messageCheck (message) Checkpoint 10"); // TEST
-				
-				System.out.println("putting tempDialog into currentConversations HashMap"); // TEST
 				// Add the InstantMessageDialog to the currentConversations HashMap
 				currentConversations.put(messageSender, tempDialog);
-				System.out.println("finished putting tempDialog into currentConversations HashMap"); // TEST
-				
-				System.out.println("InstantMessageClient::messageCheck (message) Checkpoint 11"); // TEST
 			}
 		} else {
 			System.out.println("Error: Command received is not one of the following commands: friendslist, message."); 

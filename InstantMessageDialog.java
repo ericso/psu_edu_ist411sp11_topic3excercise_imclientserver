@@ -23,13 +23,9 @@ public class InstantMessageDialog extends JDialog {
 	public InstantMessageDialog(Frame owner, String clientUsername, String recipient, ClientMessageGetterSender clientMessageGetterSender) {
 		super(owner, recipient, false);
 		
-		System.out.println("InstantMessageDialog Checkpoint 1"); // TEST
-		
 		this.clientUsername = clientUsername;
 		this.clientMessageGetterSender = clientMessageGetterSender;
 		this.recipient = recipient;
-		
-		System.out.println("InstantMessageDialog Checkpoint 2"); // TEST
 		
 		// Make buttons and text field
 		sendButton = new JButton("Send");
@@ -54,16 +50,12 @@ public class InstantMessageDialog extends JDialog {
 		
 		this.setSize(400, 200);
 		
-		System.out.println("InstantMessageDialog Checkpoint 3"); // TEST
-		
 		// Make a SendMessageHandler ActionListener and register the buttons and the JTextArea
 		sendMessageHandler = new SendMessageHandler(textField, textArea, recipient, this);
 		sendButton.addActionListener(sendMessageHandler);
 	}
 	
 	public void updateTextArea(String textToAppend) {
-		
-		System.out.println("InstantMessageDialog::updateTextArea Checkpoint 1"); // TEST
 		
 		// Add the sent text to the JTextArea
 		textArea.append(textToAppend + "\n");

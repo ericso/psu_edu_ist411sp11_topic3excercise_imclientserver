@@ -23,16 +23,12 @@ public class ConnectedUser implements Runnable {
 	
 	public ConnectedUser(String username, ServerMessageGetterSender serverMessageGetterSender, InstantMessageServer server) {
 		
-		System.out.println("ConnectedUser Checkpoint 1"); // TEST
-		
 		this.username = username;
 		this.serverMessageGetterSender = serverMessageGetterSender;
 		this.server = server;
 		
 		// Set the listening flag to true
 		this.listening = true;
-		
-		System.out.println("ConnectedUser Checkpoint 2"); // TEST
 	}
 	
 	public void run() {
@@ -41,17 +37,11 @@ public class ConnectedUser implements Runnable {
 		
 		// The ConnectedUser object will continously call readObject() on the ObjectInputStream
 		while(listening) {
-			
-			System.out.println("ConnectedUser::run loop Checkpoint X1"); // TEST
-			
 			// Get a new message
 			message = serverMessageGetterSender.getMessage();
 			
 			// Callback to server to check the message and take appropriate action
 			server.messageCheck(message, serverMessageGetterSender);
-			
-			System.out.println("ConnectedUser::run loop Checkpoint X2"); // TEST
-			
 		}
 	}
 	

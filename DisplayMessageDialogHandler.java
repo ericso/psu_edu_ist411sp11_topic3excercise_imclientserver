@@ -38,16 +38,12 @@ public class DisplayMessageDialogHandler extends MouseAdapter {
 			String recipient = (String) list.getSelectedValue();
 			System.out.println("Talking to " + index + ". " + recipient);
 			
-			System.out.println("DisplayMessageDialogHandler Checkpoint 1"); // TEST
-			
 			InstantMessageDialog tempDialog = new InstantMessageDialog(null, clientUsername, recipient, clientMessageGetterSender);
 			
 			// Add the JDialog to the currentConversations HashMap
 			currentConversations.put(recipient, tempDialog);
 			
 			tempDialog.setVisible(true);
-			
-			System.out.println("DisplayMessageDialogHandler Checkpoint 2"); // TEST
 			
 		}
 	}
