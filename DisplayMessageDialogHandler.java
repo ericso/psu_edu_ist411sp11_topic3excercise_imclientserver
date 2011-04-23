@@ -4,6 +4,7 @@ import so.eric.im.*;
 import so.eric.im.ui.*;
 
 import java.net.*;
+import java.util.*;
 
 import java.awt.event.*;
 import javax.swing.*;
@@ -11,14 +12,16 @@ import javax.swing.*;
 public class DisplayMessageDialogHandler extends MouseAdapter {
 	
 	private String clientUsername;
+	private HashMap<String, InstantMessageDialog> currentConversations;
 	private ClientMessageGetterSender clientMessageGetterSender;
 	
 	private int numberOfClicks;
 	
-	public DisplayMessageDialogHandler(String clientUsername, ClientMessageGetterSender clientMessageGetterSender) {
+	public DisplayMessageDialogHandler(String clientUsername, HashMap<String, InstantMessageDialog> currentConversations, ClientMessageGetterSender clientMessageGetterSender) {
 		super();
 		
 		this.clientUsername = clientUsername;
+		this.currentConversations = currentConversations;
 		this.clientMessageGetterSender = clientMessageGetterSender;
 	}
 	
@@ -37,13 +40,14 @@ public class DisplayMessageDialogHandler extends MouseAdapter {
 			
 			System.out.println("DisplayMessageDialogHandler Checkpoint 1"); // TEST
 			
-			InstantMessageDialog imDialog = new InstantMessageDialog(null, clientUsername, recipient, clientMessageGetterSender);
+			InstantMessageDialog tempDialog = new InstantMessageDialog(null, clientUsername, recipient, clientMessageGetterSender);
+			
+			// Add the JDialog to the currentConversations HashMap
+			currentConversations.put(recipient, tempDialog);
+			
+			tempDialog.setVisible(true);
 			
 			System.out.println("DisplayMessageDialogHandler Checkpoint 2"); // TEST
-			
-			imDialog.setVisible(true);
-			
-			System.out.println("DisplayMessageDialogHandler Checkpoint 3"); // TEST
 			
 		}
 	}

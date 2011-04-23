@@ -21,7 +21,7 @@ public class InstantMessageDialog extends JDialog {
 	private SendMessageHandler sendMessageHandler;
 	
 	public InstantMessageDialog(Frame owner, String clientUsername, String recipient, ClientMessageGetterSender clientMessageGetterSender) {
-		super(owner, recipient, true);
+		super(owner, recipient, false);
 		
 		System.out.println("InstantMessageDialog Checkpoint 1"); // TEST
 		
@@ -67,6 +67,10 @@ public class InstantMessageDialog extends JDialog {
 		
 		// Add the sent text to the JTextArea
 		textArea.append(textToAppend + "\n");
+	}
+	
+	public void clearTextField() {
+		textField.setText("");
 	}
 	
 	public String getClientUsername() {

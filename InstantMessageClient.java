@@ -74,17 +74,18 @@ public class InstantMessageClient implements Runnable {
 			messageCheck(friendsListMessage);
 		}
 		
+		this.currentConversations = new HashMap<String, InstantMessageDialog>();
+		
 		System.out.println("InstantMessageClient: Checkpoint 3"); // TEST
 		
 		// Create the friends list window
-		this.instantMessageFrame = new InstantMessageFrame(this.username, this.friendsList, this.clientMessageGetterSender);
+		this.instantMessageFrame = new InstantMessageFrame(this.username, this.friendsList, this.currentConversations, this.clientMessageGetterSender);
 		this.instantMessageFrame.setSize(220, 450);
 		this.instantMessageFrame.setVisible(true);
 		
 		System.out.println("InstantMessageClient: Checkpoint 4"); // TEST
 		
 		this.listening = true;
-		this.currentConversations = new HashMap<String, InstantMessageDialog>();
 	}
 	
 	public void run() {
@@ -156,7 +157,6 @@ public class InstantMessageClient implements Runnable {
 				
 				System.out.println("InstantMessageClient::messageCheck (message) Checkpoint 8"); // TEST
 				
-				// Code blocks here; setVisible() somehow screws things up
 				tempDialog.setVisible(true);
 			
 				System.out.println("InstantMessageClient::messageCheck (message) Checkpoint 9"); // TEST
@@ -166,8 +166,10 @@ public class InstantMessageClient implements Runnable {
 				
 				System.out.println("InstantMessageClient::messageCheck (message) Checkpoint 10"); // TEST
 				
+				System.out.println("putting tempDialog into currentConversations HashMap"); // TEST
 				// Add the InstantMessageDialog to the currentConversations HashMap
 				currentConversations.put(messageSender, tempDialog);
+				System.out.println("finished putting tempDialog into currentConversations HashMap"); // TEST
 				
 				System.out.println("InstantMessageClient::messageCheck (message) Checkpoint 11"); // TEST
 			}

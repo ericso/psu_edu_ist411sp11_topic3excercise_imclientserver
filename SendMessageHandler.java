@@ -59,6 +59,7 @@ public class SendMessageHandler implements ActionListener {
 			
 			// Add the sent text to the JTextArea
 			dialog.updateTextArea(textToSend);
+			dialog.clearTextField();
 		}
 	}
 }

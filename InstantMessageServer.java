@@ -25,7 +25,7 @@ public class InstantMessageServer implements Runnable {
 		
 		try {
 			serverSocket = new ServerSocket(serverPort);
-			serverSocket.setSoTimeout(60000); // Waits 60 seconds for connection on port
+//			serverSocket.setSoTimeout(60000); // Waits 60 seconds for connection on port
 		} catch (IOException ioe) {
 			System.out.println("Error: Could not listen on port: " + serverPort);
 			System.exit(-1);
